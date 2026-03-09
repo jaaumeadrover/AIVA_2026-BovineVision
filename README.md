@@ -26,6 +26,23 @@ El núcleo del sistema es una aplicación de procesamiento de imágenes que:
 * **Hardware:** Raspberry Pi 5
 * **Estándar de Documentación:** IEEE Std 29148-2018
 
+## ⚙️ Metodología de Desarrollo (GitFlow)
+
+Para garantizar la estabilidad del sistema en producción (Raspberry Pi 5) y mantener un historial de cambios limpio, seguimos un flujo de trabajo basado en **Feature Branches**:
+
+1.  **Creación de Tarea:** Cada nueva funcionalidad o corrección debe tener una *Issue* asignada con el prefijo `ETR-X`.
+2.  **Ramificación:** No se trabaja directamente sobre `main` ni `dev`. Se crea una rama específica:
+    * `git checkout -b feature/ETR-X-descripcion-corta`
+3.  **Desarrollo e Integración:**
+    * Se realizan los commits en la rama local.
+    * Una vez finalizado, se sube la rama al repositorio: `git push origin feature/ETR-X-descripcion-corta`.
+4.  **Pull Request (PR):**
+    * Se abre un PR hacia la rama **`dev`** para integración y pruebas.
+    * Tras validar el funcionamiento en el entorno de desarrollo, se realiza el merge.
+5.  **Despliegue a Producción:** Solo el código verificado en `dev` se mergeará mediante PR a la rama **`main`** para su despliegue final en planta.
+
+> ### ⚠️ Regla de Oro
+> **Todo Pull Request debe referenciar la Issue correspondiente** (ej. `Closes #12`) para mantener la trazabilidad de los requisitos según el estándar **IEEE Std 29148-2018**.
 ## 🚀 Contexto Operativo
 
 El sistema está diseñado para operar en condiciones de iluminación controlada, procesando imágenes de forma secuencial con un tiempo de respuesta inferior a **2 segundos**, garantizando una integración fluida en el flujo de trabajo continuo de la planta de procesado.
