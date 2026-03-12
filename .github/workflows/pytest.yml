@@ -1,0 +1,35 @@
+name: EarTagReader Unit Tests
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Grab your repository code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. Set up the Python environment
+    - name: Set up Python 3.12.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12.12"
+        cache: 'pip' # Esto leerá tu requirements.txt y guardará las descargas
+
+    # 3. Install required packages from your file
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt 
+
+    # 4. Execute the test suite
+    - name: Run pytest
+      run: |
+        # PYTHONPATH=. ensures the runner finds the 'utils' module at the root level
+        PYTHONPATH=. pytest tests/
