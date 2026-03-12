@@ -17,3 +17,13 @@ def test_load_image(mock_imread):
     mock_imread.assert_called_once_with(file_path)
     assert result is not None
     assert result.shape == (5, 5, 3)
+
+
+@patch('utils.io.cv2.imread')
+def test_load_image_fail(mock_imread):
+
+    mock_imread.return_value = None
+
+    result = io.load_image("fake.jpg")
+
+    assert result is None
