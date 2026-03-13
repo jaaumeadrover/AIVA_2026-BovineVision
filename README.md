@@ -18,6 +18,16 @@ El núcleo del sistema es una aplicación de procesamiento de imágenes que:
 3.  **Identifica:** Extrae las cuatro cifras inferiores del crotal con alta precisión.
 4.  **Valida:** Contrasta el resultado con un *Ground Truth* (fichero Excel del lote) para detectar duplicados o registros inexistentes.
 
+## Arquitectura del Sistema
+
+El sistema sigue un pipeline secuencial de visión artificial para la lectura de crotales.
+
+![Pipeline](docs/pipeline_mockup.svg)
+
+El flujo de procesamiento es:
+
+Dataset → Carga de imagen → Preprocesado → Detección del crotal → OCR → Resultado
+
 ## Tecnologías Principales
 
 * **Lenguaje:** Python
@@ -25,6 +35,31 @@ El núcleo del sistema es una aplicación de procesamiento de imágenes que:
 * **Motor OCR:** Tesseract OCR
 * **Hardware:** Raspberry Pi 5
 * **Estándar de Documentación:** IEEE Std 29148-2018
+
+## Estructura del Proyecto
+```
+.
+├── src/        # Código fuente del sistema
+├── tests/      # Tests unitarios
+├── data/       # Imágenes de prueba de crotales
+├── docs/       # Diagramas y documentación técnica
+└── README.md
+```
+
+## Instalación
+
+Clonar el repositorio:
+
+`git clone https://github.com/usuario/proyecto.git`
+
+Instalar dependencias:
+
+`pip install -r requirements.txt`
+
+## Ejecución
+
+`python src/pipeline/pipeline.py`
+
 
 ## Metodología de Desarrollo (GitFlow)
 
@@ -42,7 +77,9 @@ Para garantizar la estabilidad del sistema en producción (Raspberry Pi 5) y man
 5.  **Despliegue a Producción:** Solo el código verificado en `dev` se mergeará mediante PR a la rama **`main`** para su despliegue final en planta.
 
 > ### Regla de Oro
-> **Todo Pull Request debe referenciar la Issue correspondiente** (ej. `Closes #12`) para mantener la trazabilidad de los requisitos según el estándar **IEEE Std 29148-2018**.
+> **Todo Pull Request debe referenciar la Issue correspondiente** (ej. `Closes #12`) para mantener la trazabilidad de los requisitos, tareas de desarrollo y cambios en el código.
+
+
 ## Contexto Operativo
 
 El sistema está diseñado para operar en condiciones de iluminación controlada, procesando imágenes de forma secuencial con un tiempo de respuesta inferior a **2 segundos**, garantizando una integración fluida en el flujo de trabajo continuo de la planta de procesado.
