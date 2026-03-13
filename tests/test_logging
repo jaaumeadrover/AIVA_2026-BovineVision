@@ -1,17 +1,15 @@
 import logging
 
-def test_logging():
+def test_logging(caplog):
     """
-    Test that the system can generate log messages
-    during processing.
+    Verifica que el sistema registra mensajes de log durante
+    el procesamiento. Se utiliza caplog de pytest para capturar
+    los mensajes emitidos por el logger 'ocr_system'.
     """
 
     logger = logging.getLogger("ocr_system")
 
-    try:
+    with caplog.at_level(logging.INFO):
         logger.info("Processing image")
-        success = True
-    except Exception:
-        success = False
 
-    assert success
+    assert "Processing image" in caplog.text
