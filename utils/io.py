@@ -17,7 +17,7 @@ import cv2
 import numpy as np
 from typing import Optional
 
-def load_image(file: str) -> Optional[np.ndarray]:
+def load_image(filename: str) -> Optional[np.ndarray]:
     """
     Carga una imagen desde el disco en memoria.
 
@@ -39,6 +39,6 @@ def load_image(file: str) -> Optional[np.ndarray]:
     """
 
     # Carga la imagen utilizando OpenCV
-    img = cv2.imread(file)
+    img = cv2.imread(filename)
 
     return img
