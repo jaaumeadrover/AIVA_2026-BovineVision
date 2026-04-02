@@ -12,7 +12,7 @@ Dependencies:
 - opencv-python (cv2)
 - numpy
 """
-
+import os
 import cv2
 import numpy as np
 from typing import Optional
