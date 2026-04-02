@@ -12,33 +12,43 @@ Dependencies:
 - opencv-python (cv2)
 - numpy
 """
-
+import os
 import cv2
 import numpy as np
 from typing import Optional
 
-def load_image(file: str) -> Optional[np.ndarray]:
-    """
-    Carga una imagen desde el disco en memoria.
 
-    Utiliza OpenCV para leer el archivo desde la ruta especificada.
-    Es importante notar que OpenCV carga las imágenes en formato BGR
-    y que, si el archivo no existe o está corrupto, no lanzará un error,
-    sino que devolverá un objeto vacío (None).
+def load_image(filename: str) -> Optional[np.ndarray]:
+    """
+    Carga una imagen desde el disco en memoria con validaciones.
 
     Parámetros:
     -----------
-    file : str
-        Ruta (absoluta o relativa) del archivo de imagen que se desea cargar.
+    filename : str
+        Ruta del archivo de imagen.
 
     Retorna:
     --------
     Optional[np.ndarray]
-        Matriz numpy que representa la imagen cargada (en BGR).
-        Devuelve None si la imagen no pudo ser leída.
+        Matriz numpy (BGR) o None si falla.
     """
+    # 1. Check if the file actually exists on disk
+    if not os.path.exists(filename):
+        print(f"Error: El archivo no existe en la ruta: {filename}")
+        return None
 
-    # Carga la imagen utilizando OpenCV
-    img = cv2.imread(file)
+    try:
+        # 2. Attempt to read the image
+        img = cv2.imread(filename)
 
-    return img
+        # Check if OpenCV successfully decoded the image
+        if img is None:
+            print(f"Error: No se pudo decodificar la imagen en {filename}. El archivo podría estar corrupto.")
+            return None
+
+        return img
+
+    except Exception as e:
+        # Catch unexpected errors (e.g., permission issues, system errors)
+        print(f"Ocurrió un error inesperado al cargar la imagen: {e}")
+        return None

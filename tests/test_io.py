@@ -2,20 +2,29 @@ import numpy as np
 from unittest.mock import patch
 from utils import io
 
+
+@patch('utils.io.os.path.exists')
 @patch('utils.io.cv2.imread')
-def test_load_image(mock_imread):
-    """Test image loading without hitting the disk."""
-    # Mock the return value of cv2.imread
+def test_load_image(mock_imread, mock_exists):
+    """Test image loading by mocking both the file system and OpenCV."""
+
+    # 1. Mock os.path.exists to return True so the function continues
+    mock_exists.return_value = True
+
+    # 2. Mock cv2.imread to return a dummy image array
     expected_array = np.zeros((5, 5, 3), dtype=np.uint8)
     mock_imread.return_value = expected_array
 
-    # Execute the function
+    # Execute
     file_path = "data/sample_cow.jpg"
     result = io.load_image(file_path)
 
     # Assertions
+    mock_exists.assert_called_once_with(file_path)
     mock_imread.assert_called_once_with(file_path)
+
     assert result is not None
+    assert np.array_equal(result, expected_array)
     assert result.shape == (5, 5, 3)
 
 
