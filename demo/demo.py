@@ -1,13 +1,13 @@
 """
-Script: main.py
+Script: demo.py
 Author: Andrea Celeste Curcio, Jaume Adrover
-Date: 3/11/2026
+Date: 4/2/2026
 
 Description:
 This script performs [brief description of purpose].
 
 Usage:
-python main.py [--options]
+python demo.py [--options]
 
 Dependencies:
 - argparse
@@ -23,7 +23,7 @@ def main():
     args = parser.parse_args()
 
     # Your code here
-    print("Hello world!")
+    print("Running demo.py")
 
 
 if __name__ == "__main__":
