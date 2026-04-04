@@ -1,43 +1,39 @@
-import cv2
-import easyocr
-import numpy as np
-import time
+"""
+Script: batch.py
+Author: Andrea Celeste Curcio, Jaume Adrover
+Date: 4/4/2026
+
+Description:
+Módulo de procesamiento por lotes para OCR. Expone una función ejecutable
+para procesar directorios completos y generar reportes CSV.
+
+Dependencies:
+- opencv-python (cv2)
+- easyocr
+- numpy
+"""
 import os
-import glob
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 import csv
-from typing import Optional, Tuple
+import glob
+import time
+import easyocr
+from utils import proc
 
-def preprocess_image(image_path: str) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+def run_batch_ocr(input_dir: str, output_csv: str, gpu: bool = False, lang: str = 'es'):
     """
-    Aplica el pre-procesamiento siguiendo la metodología ETR.
+    Ejecuta el pipeline de OCR sobre todos los archivos de un directorio.
+
+    Args:
+        input_dir (str): Ruta al directorio con las imágenes.
+        output_csv (str): Ruta del archivo CSV de salida.
+        gpu (bool): Uso de aceleración por hardware.
+        lang (str): Idioma para EasyOCR.
     """
-    if not os.path.exists(image_path):
-        return None, None
+    # Inicializar el lector con los parámetros recibidos
+    reader = easyocr.Reader([lang], gpu=gpu)
 
-    img = cv2.imread(image_path)
-    if img is None:
-        return None, None
-
-    # 1. Conversión a escala de grises
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-    # 2. Umbralizado de Otsu
-    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    # 3. REGLA DE ORO: Dilatación con kernel de 1x1 (Basado en requerimiento previo)
-    kernel = np.ones((1, 1), np.uint8)
-    processed_img = cv2.dilate(thresh, kernel, iterations=1)
-
-    return img, processed_img
-
-def run_batch_ocr():
-    # Inicializar el lector
-    reader = easyocr.Reader(['es'], gpu=False)
-    
-    # Configuración de rutas
-    input_dir = '../data/TestSamples'
-    output_csv = 'ocr_results_21.csv'
-    
     # Soportar múltiples extensiones comunes
     extensions = ['*.TIF', '*.jpg', '*.jpeg', '*.png']
     image_files = []
@@ -48,35 +44,34 @@ def run_batch_ocr():
         print(f"No se encontraron imágenes en {input_dir}")
         return
 
-    print(f"--- Iniciando Procesamiento Batch ETR-3 ({len(image_files)} archivos) ---")
-    
+    print(f"--- Iniciando Procesamiento Batch ETR ({len(image_files)} archivos) ---")
+
     results_data = []
 
     for image_path in image_files:
         filename = os.path.basename(image_path)
         start_time = time.time()
 
-        original, processed = preprocess_image(image_path)
+        # Llamada al módulo de preprocesado ETR-6
+        original, processed = proc.preprocess_etr_pipeline(image_path)
 
         if processed is not None:
-            # Ejecutar OCR. Usamos 'processed' para aprovechar el umbralizado
-            # allowlist asegura que solo busque números de crotal
+            # Ejecutar OCR con whitelist numérica
             text_list = reader.readtext(processed, detail=0, allowlist='0123456789')
 
-            if len(text_list)>0:
-                detected_text = text_list[-1]
-            else:
-                detected_text=""
+            # Selección del último elemento (Heurística de posición inferior)
+            detected_text = text_list[-1] if len(text_list) > 0 else ""
+
             elapsed = time.time() - start_time
             print(f"Procesado: {filename} -> {detected_text} ({elapsed:.2f}s)")
-            
+
             results_data.append({
                 'filename': filename,
                 'result': detected_text,
                 'time_seconds': round(elapsed, 3)
             })
         else:
-            print(f"Error al cargar: {filename}")
+            print(f"Error al cargar/procesar: {filename}")
             results_data.append({
                 'filename': filename,
                 'result': 'ERROR_LOADING',
@@ -86,6 +81,11 @@ def run_batch_ocr():
     # Guardar resultados en CSV
     keys = ['filename', 'result', 'time_seconds']
     try:
+        # Asegurar que el directorio de salida existe
+        output_dir = os.path.dirname(output_csv)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
         with open(output_csv, 'w', newline='', encoding='utf-8') as f:
             dict_writer = csv.DictWriter(f, fieldnames=keys)
             dict_writer.writeheader()
@@ -94,5 +94,3 @@ def run_batch_ocr():
     except Exception as e:
         print(f"Error al guardar el CSV: {e}")
 
-if __name__ == "__main__":
-    run_batch_ocr()
