@@ -16,7 +16,9 @@ Dependencies:
 
 import cv2
 import numpy as np
-from typing import Optional
+import os
+from typing import Optional, Tuple
+from utils import io
 
 
 def preprocess(img: np.ndarray) -> np.ndarray:
@@ -99,3 +101,25 @@ def preprocess_image_array(img: np.ndarray) -> Optional[np.ndarray]:
     except Exception as e:
         print(f"Error durante el preprocesado: {e}")
         return None
+
+
+def preprocess_etr_pipeline(image_path: str) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+    """
+    Carga una imagen y aplica el pre-procesamiento estandarizado ETR.
+    """
+    if not os.path.exists(image_path):
+        return None, None
+
+    img = io.load_image(image_path)
+    if img is None:
+        return None, None
+
+    # 1. Conversión a escala de grises
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # 2. Umbralizado de Otsu directo
+    _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    processed_img = thresh
+
+    return img, processed_img
