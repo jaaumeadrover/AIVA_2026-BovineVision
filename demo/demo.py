@@ -17,7 +17,7 @@ from src import ocr
 
 def main():
     parser = argparse.ArgumentParser(description="Demo visual de OCR con Matplotlib")
-    parser.add_argument('--img', type=str, default='../data/TestSamples/0001.TIF', help='Ruta de la imagen')
+    parser.add_argument('--img', type=str, default='data/TestSamples/0001.TIF', help='Ruta de la imagen')
     args = parser.parse_args()
 
     print(f"--- Iniciando Demo Matplotlib ---")
