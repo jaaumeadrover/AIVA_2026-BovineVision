@@ -20,7 +20,7 @@ Dependencies:
 """
 
 import argparse
-import ocr
+import src.ocr as ocr
 import os
 
 def main():

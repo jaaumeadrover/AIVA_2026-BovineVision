@@ -36,30 +36,88 @@ Dataset → Carga de imagen → Preprocesado → Detección de ROI en crotal →
 * **Hardware:** Raspberry Pi 5
 * **Estándar de Documentación:** IEEE Std 29148-2018
 
+---
+
 ## Estructura del Proyecto
 ```
 .
-├── src/        # Código fuente del sistema
-├── tests/      # Tests unitarios
-├── data/       # Imágenes de prueba de crotales
-├── docs/       # Diagramas y documentación técnica
-└── README.md
+├── data/        # Imágenes de prueba de crotales
+├── demo/        # Demostración
+├── docs/        # Documentación relacionada al proyecto
+├── src/         # Código fuente del sistema
+├── tests/       # Tests unitarios
+├── utils/       # Funciones auxiliares
+├── README.md
+└── requirements.txt
 ```
 
 ## Instalación
 
-Clonar el repositorio:
+1. Clonar el repositorio:
 
-`git clone https://github.com/usuario/proyecto.git`
-
-Instalar dependencias:
+```bash
+git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
+cd AIVA_2026-BovineVision
+```
+2. Instalar dependencias:
 
 `pip install -r requirements.txt`
 
 ## Ejecución
 
-`python src/pipeline/pipeline.py`
+El script principal `predict.py` actúa como el punto de entrada para el sistema. Permite alternar entre el procesamiento de una imagen individual o el análisis por lotes de un directorio completo.
 
+
+**IMPORTANTE:** Para asegurar la correcta resolución de módulos internos, los comandos deben ejecutarse siempre desde la raíz del proyecto utilizando el flag -m.
+
+
+### 1. Procesamiento de Imagen Individual
+Ideal para pruebas rápidas o integración con disparadores de cámara en tiempo real. Utiliza el argumento `--img` seguido de la ruta del archivo.
+
+```bash
+python -m src.predict --img <your_img.TIF> --out <your_file.txt>
+```
+Donde:
+
+* ``img``: corresponde a la imagen de entrada
+* ``out``: corresponde al fichero de salida con el texto.
+### 2. Procesamiento por lotes (Batch Mode)
+
+Diseñado para evaluar datasets completos y generar métricas de rendimiento. Se activa mediante el argumento ``--dir``.
+
+```bash
+python -m src.predict --dir <path/to/data/folder> --eval <your_file.csv>
+```
+
+Donde:
+
+* ``dir``: corresponde a la carpeta donde se almacena el dataset.
+* ``eval``: corresponde al fichero de salida en formato csv para almacenar todos los resultados.
+
+
+### 3. Ayuda y parámetros
+Para cualquier duda de uso, véase la guía:
+
+```bash
+python -m src.predict --help
+```
+
+### 4. Ejemplos ejecución
+
+Véase algunos ejemplos:
+
+**Procesar una sola imagen:**
+```bash
+python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+```
+
+**Procesar un dataset completo:**
+```bash
+python -m src.predict --dir data/TestSamples/ --eval output.csv
+```
+
+
+---
 
 ## Metodología de Desarrollo (GitFlow)
 
