@@ -53,6 +53,8 @@ Dataset → Carga de imagen → Preprocesado → Detección de ROI en crotal →
 
 ## Instalación
 
+Este proyecto ha sido desarrollado y testado con **Python 3.12.12.**
+
 1. Clonar el repositorio:
 
 ```bash
@@ -116,6 +118,12 @@ python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
 python -m src.predict --dir data/TestSamples/ --eval output.csv
 ```
 
+### 5. Validación y tests
+
+Para asegurar que los módulos de preprocesamiento e inferencia funcionan correctamente tras la instalación, se puede ejecutar la batería de tests unitarios:
+```bash
+python -m pytest tests/
+```
 
 ---
 
