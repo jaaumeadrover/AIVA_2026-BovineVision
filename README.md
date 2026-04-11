@@ -26,7 +26,7 @@ El sistema sigue un pipeline secuencial de visión artificial para la lectura de
 
 El flujo de procesamiento es:
 
-Dataset → Carga de imagen → Preprocesado → Detección de ROI en crotal → OCR → Resultado
+Dataset → Carga de imagen → Preprocesado → OCR → Resultado
 
 ## Tecnologías Principales
 
