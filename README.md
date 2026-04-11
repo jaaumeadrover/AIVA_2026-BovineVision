@@ -15,7 +15,7 @@ Desarrollado por **Jaudre Computer Vision Services** para la empresa cárnica **
 El núcleo del sistema es una aplicación de procesamiento de imágenes que:
 1.  **Captura:** Recibe imágenes individuales de crotales desde una cámara fija en cinta transportadora.
 2.  **Procesa:** Localiza la región de interés, mejora el contraste y corrige la alineación del texto.
-3.  **Identifica:** Extrae las cuatro cifras inferiores del crotal con alta precisión.
+3.  **Identifica:** Extrae la secuencia numérica inferior del crotal (habitualmente de 4 o 5 dígitos)
 4.  **Valida:** Contrasta el resultado con un *Ground Truth* (fichero Excel del lote) para detectar duplicados o registros inexistentes.
 
 ## Arquitectura del Sistema
@@ -32,7 +32,7 @@ Dataset → Carga de imagen → Preprocesado → Detección de ROI en crotal →
 
 * **Lenguaje:** Python
 * **Visión Artificial:** OpenCV
-* **Motor OCR:** Tesseract OCR
+* **Motor OCR:** EasyOCR
 * **Hardware:** Raspberry Pi 5
 * **Estándar de Documentación:** IEEE Std 29148-2018
 
