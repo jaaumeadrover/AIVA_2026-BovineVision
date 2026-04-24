@@ -150,5 +150,15 @@ Para garantizar la estabilidad del sistema en producción (Raspberry Pi 5) y man
 
 El sistema está diseñado para operar en condiciones de iluminación controlada, procesando imágenes de forma secuencial con un tiempo de respuesta inferior a **2 segundos**, garantizando una integración fluida en el flujo de trabajo continuo de la planta de procesado.
 
+
+## Manual de Usuario 
+
+Este apartado se encuentra en desarrollo como parte de la práctica P3.
+
+Incluirá:
+- Guía de instalación paso a paso
+- Despliegue en Raspberry Pi 5
+- Ejemplo de ejecución del sistema
+
 ---
 © 2026 Jaudre Computer Vision Services. Todos los derechos reservados.
