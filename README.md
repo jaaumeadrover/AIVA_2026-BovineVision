@@ -65,6 +65,23 @@ cd AIVA_2026-BovineVision
 
 `pip install -r requirements.txt`
 
+## Puesta en marcha rápida
+
+1. Clonar el repositorio:
+   git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
+   cd AIVA_2026-BovineVision
+
+2. Instalar dependencias:
+   pip install -r requirements.txt
+
+3. Ejecutar ejemplo:
+   python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+
+4. Consultar resultado en el archivo generado.
+
+El sistema procesará la imagen de entrada, aplicará técnicas de preprocesado y devolverá el identificador numérico detectado en un archivo de salida.
+
+
 ## Ejecución
 
 El script principal `predict.py` actúa como el punto de entrada para el sistema. Permite alternar entre el procesamiento de una imagen individual o el análisis por lotes de un directorio completo.
@@ -151,7 +168,12 @@ Para garantizar la estabilidad del sistema en producción (Raspberry Pi 5) y man
 El sistema está diseñado para operar en condiciones de iluminación controlada, procesando imágenes de forma secuencial con un tiempo de respuesta inferior a **2 segundos**, garantizando una integración fluida en el flujo de trabajo continuo de la planta de procesado.
 
 
-## Manual de Usuario 
+## Despliegue en Raspberry Pi
+
+El sistema está diseñado para ejecutarse en Raspberry Pi 5. 
+La guía completa de instalación y despliegue se incluirá en el manual de usuario.
+
+## Manual de Usuario
 
 Este apartado se encuentra en desarrollo como parte de la práctica P3.
 
