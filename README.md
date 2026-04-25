@@ -65,22 +65,22 @@ cd AIVA_2026-BovineVision
 
 `pip install -r requirements.txt`
 
-## Puesta en marcha rápida
+## Puesta en marcha rápida (Quick Start)
 
-1. Clonar el repositorio:
-   git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
-   cd AIVA_2026-BovineVision
+Para comprobar rápidamente que el sistema funciona correctamente, ejecuta:
 
-2. Instalar dependencias:
-   pip install -r requirements.txt
+```bash
+git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
+cd AIVA_2026-BovineVision
+pip install -r requirements.txt
+python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+```
 
-3. Ejecutar ejemplo:
-   python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+Resultado esperado:
 
-4. Consultar resultado en el archivo generado.
+Se generará un archivo `result.txt` con el identificador numérico detectado en la imagen.
 
-El sistema procesará la imagen de entrada, aplicará técnicas de preprocesado y devolverá el identificador numérico detectado en un archivo de salida.
-
+Este flujo permite validar en pocos pasos que el sistema está correctamente instalado y operativo.
 
 ## Ejecución
 
