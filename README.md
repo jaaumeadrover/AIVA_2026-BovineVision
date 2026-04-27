@@ -42,6 +42,7 @@ Dataset → Carga de imagen → Preprocesado → OCR → Resultado
 ```
 .
 ├── data/        # Imágenes de prueba de crotales
+│   └── 0001.TIF
 ├── demo/        # Demostración
 ├── docs/        # Documentación relacionada al proyecto
 ├── src/         # Código fuente del sistema
@@ -73,12 +74,12 @@ Para comprobar rápidamente que el sistema funciona correctamente, ejecuta:
 git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
 cd AIVA_2026-BovineVision
 pip install -r requirements.txt
-python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+python -m src.predict --img data/0001.TIF --out data/resultado.txt
 ```
 
 Resultado esperado:
 
-Se generará un archivo `result.txt` con el identificador numérico detectado en la imagen.
+Resultado: 0288
 
 Este flujo permite validar en pocos pasos que el sistema está correctamente instalado y operativo.
 
@@ -100,6 +101,7 @@ Donde:
 
 * ``img``: corresponde a la imagen de entrada
 * ``out``: corresponde al fichero de salida con el texto.
+* 
 ### 2. Procesamiento por lotes (Batch Mode)
 
 Diseñado para evaluar datasets completos y generar métricas de rendimiento. Se activa mediante el argumento ``--dir``.
@@ -127,12 +129,12 @@ Véase algunos ejemplos:
 
 **Procesar una sola imagen:**
 ```bash
-python -m src.predict --img data/TestSamples/0001.TIF --out result.txt
+python -m src.predict --img data/0001.TIF --out result.txt
 ```
 
 **Procesar un dataset completo:**
 ```bash
-python -m src.predict --dir data/TestSamples/ --eval output.csv
+python -m src.predict --dir data/ --eval output.csv
 ```
 
 ### 5. Validación y tests
@@ -173,14 +175,16 @@ El sistema está diseñado para operar en condiciones de iluminación controlada
 El sistema está diseñado para ejecutarse en Raspberry Pi 5. 
 La guía completa de instalación y despliegue se incluirá en el manual de usuario.
 
-## Manual de Usuario
+## Documentación
 
-Este apartado se encuentra en desarrollo como parte de la práctica P3.
+La documentación completa del sistema se encuentra en:
 
-Incluirá:
-- Guía de instalación paso a paso
-- Despliegue en Raspberry Pi 5
-- Ejemplo de ejecución del sistema
+- `docs/Manual de Usuario.pdf`
+
+Incluye:
+- Instalación
+- Despliegue en Raspberry Pi
+- Guía de uso
 
 ---
 © 2026 Jaudre Computer Vision Services. Todos los derechos reservados.
