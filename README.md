@@ -41,7 +41,7 @@ Dataset → Carga de imagen → Preprocesado → OCR → Resultado
 ## Estructura del Proyecto
 ```
 .
-├── data/        # Imágenes de prueba de crotales
+├── data/        # Imágenes de entrada y resultados generados
 │   └── 0001.TIF
 ├── demo/        # Demostración
 ├── docs/        # Documentación relacionada al proyecto
@@ -68,11 +68,9 @@ cd AIVA_2026-BovineVision
 
 ## Puesta en marcha rápida (Quick Start)
 
-Para comprobar rápidamente que el sistema funciona correctamente, ejecuta:
+Una vez clonado el repositorio e instaladas las dependencias, ejecutar:
 
 ```bash
-git clone https://github.com/jaaumeadrover/AIVA_2026-BovineVision.git
-cd AIVA_2026-BovineVision
 pip install -r requirements.txt
 python -m src.predict --img data/0001.TIF --out data/resultado.txt
 ```
@@ -82,6 +80,42 @@ Resultado esperado:
 Resultado: 0288
 
 Este flujo permite validar en pocos pasos que el sistema está correctamente instalado y operativo.
+
+## Despliegue con Docker (Recomendado) 
+
+Para facilitar la instalación en Raspberry Pi, el sistema puede ejecutarse mediante Docker. 
+
+### 1. Construir la imagen
+
+```bash
+docker build -t myapp .
+```
+
+En algunos sistemas puede ser necesario utilizar:
+
+```bash
+sudo docker build -t myapp .
+```
+
+### 2. Ejecutar el contenedor
+
+```bash
+docker run -it -v $(pwd)/data:/app/data myapp
+```
+
+Este comando inicia el contenedor y permite compartir la carpeta `data` entre el sistema y Docker. 
+Se abrirá una terminal dentro del contenedor desde la que se pueden ejecutar los comandos del sistema.
+
+### 3. Ejecutar el sistema Dentro del contenedor:
+
+```bash
+python -m src.predict --img data/0001.TIF --out data/resultado.txt
+```
+**Nota:** Si aparece un error de permisos al escribir en la carpeta `data`, puede ser necesario ejecutar:
+
+```bash
+sudo chmod -R 777 data
+```
 
 ## Ejecución
 
@@ -101,7 +135,7 @@ Donde:
 
 * ``img``: corresponde a la imagen de entrada
 * ``out``: corresponde al fichero de salida con el texto.
-* 
+  
 ### 2. Procesamiento por lotes (Batch Mode)
 
 Diseñado para evaluar datasets completos y generar métricas de rendimiento. Se activa mediante el argumento ``--dir``.
@@ -170,10 +204,14 @@ Para garantizar la estabilidad del sistema en producción (Raspberry Pi 5) y man
 El sistema está diseñado para operar en condiciones de iluminación controlada, procesando imágenes de forma secuencial con un tiempo de respuesta inferior a **2 segundos**, garantizando una integración fluida en el flujo de trabajo continuo de la planta de procesado.
 
 
-## Despliegue en Raspberry Pi
+## Despliegue en Raspberry Pi 
+El sistema está diseñado para ejecutarse en Raspberry Pi 5 utilizando Docker. 
+El proceso de despliegue consiste en: 
+- Clonar el repositorio
+- Construir la imagen Docker
+- Ejecutar el contenedor
 
-El sistema está diseñado para ejecutarse en Raspberry Pi 5. 
-La guía completa de instalación y despliegue se incluirá en el manual de usuario.
+Para una guía detallada paso a paso, consultar el manual de usuario disponible en la carpeta `docs`.
 
 ## Documentación
 
